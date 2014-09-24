@@ -36,19 +36,19 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-var svg = d3.select(".wpd3-189-0").append("svg")
+var svgteach = d3.select(".wpd3-189-0").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-svg.call(tip);
+svgteach.call(tip);
 
 d3.csv("data/SalaryRatios.csv", type, function(error, data) {
   x.domain(data.map(function(d) { return d.country; }));
   y.domain([0, d3.max(data, function(d) { return d.ratio; })]);
 
-  svg.append("g")
+  svgteach.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
@@ -59,7 +59,7 @@ d3.csv("data/SalaryRatios.csv", type, function(error, data) {
       .attr("transform", "rotate(65)")
       .style("text-anchor", "start");
 
-  svg.append("g")
+  svgteach.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
@@ -69,7 +69,7 @@ d3.csv("data/SalaryRatios.csv", type, function(error, data) {
       .style("text-anchor", "end")
       .text("Salary Ratio");
 
-  svg.selectAll(".bar")
+  svgteach.selectAll(".bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
