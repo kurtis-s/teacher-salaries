@@ -9,82 +9,82 @@
 <body>
 <div id="teacher-salary-bar-chart"></div>
 <script>
-
-var margin = {top: 80, right: 30, bottom: 80, left: 40},
-    width = 700 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-var tip = d3.tip()
-  .attr('class', 'd3-tip')
-  .offset([-10, 0])
-  .html(function(d) {
-    return "Avg Annual Wage: $" + Math.round(d.avg_annual_wage) + "<br/>" + 
-           "Avg Teacher Salary: $" + Math.round(d.avg_teacher_sal);
-  })
-
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
-
-var svgteach = d3.select("#teacher-salary-bar-chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-svgteach.call(tip);
-
-d3.csv("data/SalaryRatios.csv", type, function(error, data) {
-  x.domain(data.map(function(d) { return d.country; }));
-  y.domain([0, d3.max(data, function(d) { return d.ratio; })]);
-
-  svgteach.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-    .selectAll("text")
-      .attr("y", 0)
-      .attr("x", 9)
-      .attr("dy", ".35em")
-      .attr("transform", "rotate(65)")
-      .style("text-anchor", "start");
-
-  svgteach.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Salary Ratio");
-
-  svgteach.selectAll(".bar")
-      .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.country); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.ratio); })
-      .attr("height", function(d) { return height - y(d.ratio); })
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide);
-
-});
-
-function type(d) {
-  d.ratio = +d.ratio;
-  return d;
-}
-
+(function () {
+  var margin = {top: 80, right: 30, bottom: 80, left: 40},
+      width = 700 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+  
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "Avg Annual Wage: $" + Math.round(d.avg_annual_wage) + "<br/>" + 
+             "Avg Teacher Salary: $" + Math.round(d.avg_teacher_sal);
+    })
+  
+  var x = d3.scale.ordinal()
+      .rangeRoundBands([0, width], .1);
+  
+  var y = d3.scale.linear()
+      .range([height, 0]);
+  
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+  
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+  
+  var svgteach = d3.select("#teacher-salary-bar-chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+  svgteach.call(tip);
+  
+  d3.csv("data/SalaryRatios.csv", type, function(error, data) {
+    x.domain(data.map(function(d) { return d.country; }));
+    y.domain([0, d3.max(data, function(d) { return d.ratio; })]);
+  
+    svgteach.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+      .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 9)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(65)")
+        .style("text-anchor", "start");
+  
+    svgteach.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+      .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Salary Ratio");
+  
+    svgteach.selectAll(".bar")
+        .data(data)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.country); })
+        .attr("width", x.rangeBand())
+        .attr("y", function(d) { return y(d.ratio); })
+        .attr("height", function(d) { return height - y(d.ratio); })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
+  
+  });
+  
+  function type(d) {
+    d.ratio = +d.ratio;
+    return d;
+  }
+}());
 </script>
